@@ -31,6 +31,7 @@ type IAPClient interface {
 type Client struct {
 	URL     string
 	TimeOut time.Duration
+	SandboxURL string
 }
 
 // HandleError returns error message by status code
@@ -81,6 +82,7 @@ func New() Client {
 	client := Client{
 		URL:     SandboxURL,
 		TimeOut: time.Second * 5,
+		SandboxURL: SandboxURL,
 	}
 	if os.Getenv("IAP_ENVIRONMENT") == "production" {
 		client.URL = ProductionURL
@@ -133,7 +135,7 @@ func (c *Client) Verify(req IAPRequest, result interface{}) error {
 	if ok && r.Status == 21007 {
 		b = new(bytes.Buffer)
 		json.NewEncoder(b).Encode(req)
-		resp, err := client.Post(SandboxURL, "application/json; charset=utf-8", b)
+		resp, err := client.Post(c.SandboxURL, "application/json; charset=utf-8", b)
 		if err != nil {
 			return err
 		}
