@@ -1,3 +1,6 @@
+
+# DEPRECIATED - This fork is no longer used as upstream already has the changes made in this fork. This is currently READ-ONLY for archival reasons. 
+
 go-iap
 ======
 
